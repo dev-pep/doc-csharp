@@ -4,7 +4,8 @@ Estos son mis apuntes de *C#* 9.
 
 ## Tabla de contenido
 
-- [Introducción](capitulos/01-introduccion.md)
+1. [Introducción](capitulos/01-introduccion.md)
+1. [Tipos de datos](capitulos/02-tipos.md)
 
 ---
 

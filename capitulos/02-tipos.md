@@ -48,7 +48,7 @@ Los literales enteros pueden tener prefijo ***0x*** para hexadecimal, o ***0b***
 
 Los literales reales pueden tener punto decimal y/o notación exponencial (***e***).
 
-Los caracteres alfabéticos son *case insensitive*. Se pueden insertar guiones bajos en los literales numéricos a discreción.
+Los caracteres alfabéticos en estos literales son *case insensitive*. Se pueden insertar guiones bajos en los literales numéricos a discreción.
 
 Si el literal tiene punto decimal o símbolo exponencial, se interpreta directamente como ***double***. En caso contrario, se interpreta como entero, dentro del primer tipo donde haya espacio siguiendo la lista ***int***, ***uint***, ***long*** ***ulong***.
 
@@ -59,6 +59,8 @@ float f = 4.5;  // error
 ```
 
 Esta sentencia levantaría una excepción, ya que no hay declaración implícita de ***double*** a ***float***.
+
+La conversión (explícita) de real a entero trunca la parte decimal.
 
 ### Operadores
 
@@ -157,7 +159,7 @@ También existen los *interpolated strings*. Estos, con un prefijo ***\$*** admi
 
 Si el *string* es *interpolated* ***y*** *verbatim*, el signo ***\$*** debe ir antes del ***@***.
 
-Es posible acceder a los elementos del *string* mediante índice entre corchetes (***[N]***). Para buscar un carácter dentro del *string* existen los métodos `IndexOf()` y `LastIndexOf()`. Para buscar *substrings* disponemos de `Contains()`, `StartsWith()` y `EndsWith()`.
+Es posible acceder a los elementos del *string* mediante índice entre corchetes (***[N]***). El índice empieza en 0. Para buscar un carácter dentro del *string* existen los métodos `IndexOf()` y `LastIndexOf()`. Para buscar *substrings* disponemos de `Contains()`, `StartsWith()` y `EndsWith()`.
 
 Los métodos que manipulan *strings*, lo que hacen es retornan un *string* nuevo, ya que estos son inmutables:
 
@@ -167,3 +169,30 @@ Los métodos que manipulan *strings*, lo que hacen es retornan un *string* nuevo
 - `TrimStart()` y `TrimEnd()` eliminan espacio en blanco.
 
 Existen otros métodos como `ToUpper()`, `ToLower()`, `Split()` (basado en delimitadores) o `Join()`.
+
+## *Arrays*
+
+Se accede a sus elementos a través de índice entre corchetes (***[N]***). Los elementos están siempre almacenados en bloques contiguos de memoria (acceso eficiente).
+
+Declaración e inicialización:
+
+```cs
+char[] vowels = new char[5];  // sin inicializar
+char[] vowels = new char[] {'a','e','i','o','u'};  // inicializado
+char[] vowels = {'a','e','i','o','u'};  // equivale al anterior
+```
+
+Los elementos son de lectura y escritura por defecto. El tamaño de un *array* es constante. El índice empieza en 0.
+
+Los *arrays* son de un tipo derivado de ***System.Array***. Esto incluye propiedades como ***Length*** y ***Rank*** (número de dimensiones).
+
+Existen además varios métodos estáticos útiles:
+
+- `BinarySearch()` para búsqueda en *array* ordenado.
+- `IndexOf()`, `LastIndexOf()`, `Find()`, `FindIndex()`, `FindLastIndex()` para búsquedas en *arrays* no ordenados.
+- `Sort()` para ordenación de *arrays*.
+- `Copy()` para copia de *arrays*.
+
+El valor por defecto de un *array* no inicializado es el resultante de establecer a 0 todos los *bits* del valor. Para tipos por referencia, ***null***.
+
+### *Arrays* multidimensionales cuadrados

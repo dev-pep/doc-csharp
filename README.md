@@ -1,6 +1,6 @@
 # Apuntes de *C#*
 
-Estos son mis apuntes de *C#* 9.
+Estos son mis apuntes de *C#* 7.
 
 ## Tabla de contenido
 

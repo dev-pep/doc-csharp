@@ -177,12 +177,15 @@ Se accede a sus elementos a través de índice entre corchetes (***[N]***). Los 
 Declaración e inicialización:
 
 ```cs
-char[] vowels = new char[5];  // sin inicializar
-char[] vowels = new char[] {'a','e','i','o','u'};  // inicializado
-char[] vowels = {'a','e','i','o','u'};  // equivale al anterior
+int[] a = new int[5];  // sin inicializar
+int[] a = new int[] {1, 2, 3, 4, 5};  // inicializado
+int[] a = new int[5] {1, 2, 3, 4, 5};  // equivale al anterior
+int[] a = {1, 2, 3, 4, 5};  // equivale también al anterior
 ```
 
 Los elementos son de lectura y escritura por defecto. El tamaño de un *array* es constante. El índice empieza en 0.
+
+En la inicialización de los *arrays*, puede haber una coma tras el último elemento de la lista.
 
 Los *arrays* son de un tipo derivado de ***System.Array***. Esto incluye propiedades como ***Length*** y ***Rank*** (número de dimensiones).
 
@@ -195,4 +198,88 @@ Existen además varios métodos estáticos útiles:
 
 El valor por defecto de un *array* no inicializado es el resultante de establecer a 0 todos los *bits* del valor. Para tipos por referencia, ***null***.
 
-### *Arrays* multidimensionales cuadrados
+Para dar valor a un *array* en una sentencia que no sea una declaración:
+
+```cs
+a = new int[5];  // todo ceros
+a = new int[] {1, 2, 3, 4, 5};
+a = new int[5] {1, 2, 3, 4, 5};
+```
+
+### *Arrays* multidimensionales
+
+#### *Arrays* cuadrados
+
+Las dimensiones interiores de estos *arrays* tienen un tamaño constante.
+
+Para indicar un tipo multidimensional cuadrado se usan comas para separar las dimensiones.
+
+```cs
+int[,] a = new int[3,4];  // a ceros
+int[,] a = new int[,] {  // inicializado
+    {1, 2, 3, 4},
+    {2, 3, 4, 5},
+    {3, 4, 5, 6}
+};
+int[,] a = new int[3,4] {  //equivale al anterior
+    {1, 2, 3, 4},
+    {2, 3, 4, 5},
+    {3, 4, 5, 6}
+};
+int[,] a = {  // equivale también al anterior
+    {1, 2, 3, 4},
+    {2, 3, 4, 5},
+    {3, 4, 5, 6}
+};
+```
+
+Para dar valor al *array* en una sentencia que no es declaración:
+
+```cs
+a = new int[3,4];  // a ceros
+a = new int[,] {  // valores
+    {1, 2, 3, 4},
+    {2, 3, 4, 5},
+    {3, 4, 5, 6}
+};
+a = new int[3,4] {  //equivale al anterior
+    {1, 2, 3, 4},
+    {2, 3, 4, 5},
+    {3, 4, 5, 6}
+};
+```
+
+En este ejemplo, la variable ***a*** debe estar declarada como de tipo ***int[,]***.
+
+El método `GetLength()` del *array* retorna el número de elementos de la dimensión especificada (empezando por la dimensión 0). Naturalmente, pueden declararse más de dos dimensiones.
+
+#### *Jagged arrays*
+
+Estos *arrays* pueden ser irregulares, en cuanto a que las dimensiones interiores pueden tener un número variable de elementos. Solo la dimensión más externa (la primera) se debe indicar.
+
+Estos *arrays* no se indican separando las dimensiones con comas, sino indicando cada dimensión en su par de corchetes correspondiente.
+
+```cs
+int[][] a = new int[3][];
+```
+
+En este caso, la variable ***a*** será un *array* de 3 elementos. Cada elemento será a su vez un *array* de tipo ***int[]***, de tal modo que cada uno de estos *arrays* podrá tener el tamaño que quiera, independientemente de los demás. Para inicializar estos *arrays*:
+
+```cs
+a[0] = new int[10];
+a[1] = new int[] {1, 2, 3, 4, 5, 6};
+a[2] = new int[3] {1, 2, 3};
+```
+
+Los *jagged arrays* no se pueden inicializar en la declaración.
+
+#### Rizando el rizo
+
+Es posible combinar ambos estilos de *array*:
+
+```cs
+int[][,][][] a = new int[4][,][][];
+char[,,][][] c = new char[2,5,3][][];
+```
+
+En todo caso, a la hora de especificar el tamaño, siempre hay que especificarlo para el primer par de corchetes, ya sea una dimensión o un *array* cuadrado. El resto de pares de corchetes no puede especificar tamaño.

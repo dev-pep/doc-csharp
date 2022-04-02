@@ -12,7 +12,7 @@ Todo valor es una instancia de una clase (tipo), incluyendo los tipos predefinid
 
 Los tipos tienen propiedades o atributos (*data members*) y/o métodos (*function members*). Las clases pueden disponer de un constructor con el mismo nombre que la clase.
 
-Un miembro estático (`static`) es accesible desde todas las instancias. Un método no estático puede acceder a todos los atributos, tanto estáticos como no estáticos. Un método estático no puede acceder a atributos no estáticos.
+Un miembro estático (`static`) es accesible desde todas las instancias. Un método no estático puede acceder a todos los atributos, tanto estáticos como no estáticos. Un método estático no puede acceder a atributos no estáticos ni llamar a métodos no estáticos de la clase.
 
 El acceso a un miembro estático (método o atributo) se debe hacer a través del nombre de la clase, mientras que el acceso a un miembro no estático se hace a través de la instancia.
 

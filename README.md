@@ -6,6 +6,7 @@ Estos son mis apuntes de *C#* 7.
 
 1. [Introducción](capitulos/01-introduccion.md)
 1. [Tipos de datos](capitulos/02-tipos.md)
+1. [Elementos del lenguaje](capitulos/03-lenguaje.md)
 
 ---
 

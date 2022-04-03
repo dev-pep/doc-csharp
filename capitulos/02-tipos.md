@@ -85,7 +85,7 @@ checked
 }
 ```
 
-Si el *overflow* está configurado globalmente (*Advanced Build Settings* en *Visual Studio*) para levantar excepción, disponemos de `unchecked`, que hace todo lo contrario.
+Si el *overflow* está configurado globalmente (opciones avanzadas de compilación en *Visual Studio*) para levantar excepción, disponemos de `unchecked`, que hace todo lo contrario.
 
 Los tipos de 8 y 16 bits no disponen de operadores aritméticos (`+`, `-`, `*` y `/`), con lo que son convertidos a enteros mayores. Dado que el resultado de un operador es del tipo del operando con tipo superior, el resultado no se puede almacenar en un tipo de 8 o 16 bits, con lo que debe convertirse explícitamente:
 

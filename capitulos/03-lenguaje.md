@@ -133,3 +133,75 @@ int n = 25;
 ```
 
 ## Expresiones y operadores
+
+Los operadores pueden ser unarios, binarios o ternarios. Una expresión retorna un valor; de lo contrario es de tipo ***void***. Los operadores unen expresiones (normalmente no ***void***).
+
+### Asignación
+
+El operando derecho no puede ser ***void***. Tras asignar valor a la variable de la izquierda, la expresión retorna el valor asignado.
+
+```cs
+x = 2 * (y = 5);  // y->5, x->10
+a = b = c = 15;  // a->15, b->15, c->15
+```
+
+Disponemos de *compound assignment operators*: `+=`, `-=`, `<<=`, etc.
+
+### Asociatividad y precedencia
+
+Para controlar la precedencia se usa el paréntesis. Dentro del mismo nivel de paréntesis se ejecutan los operadores en orden de precedencia. Cuando dos operadores tienen la misma precedencia en el mismo nivel, se ejecutan en orden de asociatividad.
+
+En cuanto a la asociatividad, los operadores binarios se ejecutan de izquierda a derecha. La excepción son los operadores de asignación, lambda (`=>`), *null coalescing* (`??`) y ternario (`?` - `:`), que se evalúan de derecha a izquierda.
+
+A continuación, una lista de operadores en orden de precedencia. Los que están en la misma categoría tienen la misma precedencia:
+
+- Primarios: `.`, `->`, `()` (llamada a función), `[]`, `++` (*postfix*), `--` (*postfix*), `new`, `stackalloc`, `typeof`, `nameof`, `checked`, `unchecked`, `default`.
+- Unarios: `Await`, `sizeof`, `?.`, `+`, `-`, `!`, `~`, `++` (*prefix*), `--` (*prefix*), `()` (*cast*), `*` (valor en dirección de memoria), `*`, `&` (dirección de memoria del valor).
+- Multiplicativos: `*`, `/`, `%`.
+- Aditivos: `+`, `-`.
+- *Shift*: `<<`, `>>`.
+- Relacionales: `<`, `>`, `<=`, `>=`, `is`, `as`.
+- Igualdad: `==`, `!=`.
+- *And* lógico: `&`.
+- *Xor* lógico: `^`.
+- *Or* lógico: `|`.
+- *And* condicional: `&&`.
+- *Or* condicional: `||`.
+- Ternario condicional: `?` - `:`.
+- Asignación y lambda: `=`, `*=`, `/=`, `+=`, `-=`, `<<=`, `>>=`, `&=`, `^=`, `|=`, `=>`.
+
+Los operadores relacionados con el acceso a memoria (`->`, `&` y `*`) solo pueden usarse en contexto no seguro (`unsafe`, véase más adelante), que debe habilitarse en las opciones de compilación.
+
+### Operadores para *null*
+
+Operador *null coalescing* (`??`) retorna el valor del operando derecho si el izquierdo es igual a ***null***. De lo contrario retorna el valor del primer operador. Si no hace falta, no se evalúa el operando derecho.
+
+```cs
+c = a ?? "vacío";
+```
+
+El operador nulo condicional (`?.`, llamado "Elvis") permite acceder a miembros de valores que podrían ser nulos.
+
+```cs
+a = objeto.miembro;
+```
+
+Esto levanta una excepción si ***objeto*** es nulo.
+
+```cs
+a = objeto == null ? null : objeto.miembro;
+```
+
+Esto es correcto. Pero se puede abreviar así:
+
+```cs
+a = objeto?.miembro;
+```
+
+El operador retorna ***null*** si el objeto al que se aplica (operando izquierdo) es ***null***. De lo contrario retorna el valor del miembro especificado de tal objeto. En el ejemplo, ***a*** debe ser de un tipo *nullable* (que acepte el valor ***null***).
+
+## Sentencias
+
+Simples y bloques (entre llaves ***{}***).
+
+### Declaraciones

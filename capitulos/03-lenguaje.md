@@ -202,6 +202,255 @@ El operador retorna ***null*** si el objeto al que se aplica (operando izquierdo
 
 ## Sentencias
 
-Simples y bloques (entre llaves ***{}***).
+Simples (terminadas en punto y coma) y bloques (entre llaves ***{}***).
 
 ### Declaraciones
+
+Declaran (y opcionalmente inicializan) una o más variables.
+
+No se puede declarar una variable ya declarada en el presente bloque o en un bloque exterior al actual.
+
+### Expresiones
+
+Las sentencias consistentes en una expresión pueden ser de asignación, instanciación, incremento, decremento o llamada. Cualquier otro tipo es ilegal.
+
+### Selección
+
+Control de flujo.
+
+#### if
+
+```
+if(a > 10)
+    // sentencia o bloque
+else
+    // sentencia o bloque
+```
+
+En lugar de bloques de código se puede escribir una única sentencia.
+
+La cláusula `else` es opcional. Dentro de esta se puede escribir una única sentencia `if`. Una cláusula `else` está ligada siempre a la sentencia `if` más próxima posible.
+
+#### switch
+
+Es más claro que utilizar muchos `else if`.
+
+```cs
+switch(expr)
+{
+    case const1:
+        // Código
+        break;
+    case const2:
+        // Código
+        break;
+    default:
+        // Código
+}
+```
+
+La expresión se evalúa una sola vez.
+
+Los valores de `case` deben ser expresiones constantes (literales y/o constantes), lo cual implica que solo pueden ser de tipo *built-in* entero, booleano, charácter, enumeración o *string*.
+
+La cláusula `default` es opcional.
+
+Es **obligatorio especificar** dónde sigue el flujo de ejecución **al final** de cada cláusula `case` y también en la `default`. Puede ser:
+
+- `break` sale de la sentencia `switch`.
+- `goto case` ejecuta la cláusula cuyo valor es igual a la expresión que indicamos.
+- `goto default` salta a la cláusula `default`.
+- Cualquier otro tipo de salto: `return`, `throw`, `continue`, o `goto`.
+
+Si hay varios valores que corresponden al mismo código, se pueden especificar seguidos:
+
+```cs
+case const1:
+case const2:
+    // Código
+    break;
+```
+
+Es posible escribir sentencias `switch` basadas en **tipo** en lugar de en valor. Para ello, las cláusulas `case` indicarán un tipo y una variable que recibirá el valor de la expresión:
+
+```cs
+switch(expr)
+{
+    case int i:
+        // Código. Disponemos del valor de la expresión en el entero i.
+        break;
+    case float f:
+        // Código. Disponemos del valor de la expresión en el float f.
+        break;
+    default:
+        // Código
+        break;
+}
+```
+
+Se puede usar cualquier tipo, no solamente los *built-in*. Los nombres de las variables de las cláusulas `case` no tienen por qué ser distintos.
+
+Adicionalmente, se puede restringir la cláusula `case` según valor, mediante `when`:
+
+```cs
+case float f when f > 10:
+case double d when d > 10:
+case decimal m when m > 10:
+    // Código
+    break;
+```
+
+En este caso, las variables ***f***, ***d*** y ***m*** no están accesibles en el código de la cláusula.
+
+Cuando existen tipos derivados, el orden en el que aparecen las cláusulas `case` puede ser importante. Esto no sucede en el caso de las expresiones constantes.
+
+### Iteración
+
+#### while
+
+
+```
+while(expr)
+// sentencia o bloque
+```
+
+#### do-while
+
+```cs
+do
+    // sentencia o bloque
+while(expr);
+```
+
+#### for
+
+```
+for(exprIni; exprCond; exprIter)
+    // sentencia o bloque
+```
+
+Todas las expresiones son opcionales. `for(;;)` equivale a `while(true)`.
+
+#### foreach
+
+```
+foreach(tipo var1 in var2)
+    // sentencia o bloque
+```
+
+En este caso, es obligatorio declarar una nueva variable (***var1***), de tipo ***tipo***, que va tomando los valores de los elementos de ***var2***, que debe ser un objeto de un tipo **enumerable**, y cuyos elementos son del mismo tipo que ***var1***.
+
+Por ejemplo, los tipos *array* y *string* son enumerables.
+
+### Saltos
+
+*C#* dispone de estos tipos de saltos:
+
+- `break` sale del bloque de una sentencia de iteración o `switch`.
+- `continue` inicia la siguiente iteración (en una sentencia de iteración).
+- `goto` salta directamente a la etiqueta indicada. Paréntesis no necesarios.
+- `return` retorna del método, opcionalmente indicando un valor. Paréntesis no necesarios.
+- `throw` lanza una excepción (véase tema excepciones).
+
+Una etiqueta se define como un único identificador seguido por dos puntos (***:***).
+
+No puede haber sentencia `return` en un bloque `finally` (véase tema excepciones).
+
+## *Namespaces*
+
+Los *namespaces* pueden anidarse, y se indican mediante *dot notation*.
+
+```cs
+namespace Exterior
+{
+    namespace Medio
+    {
+        namespace Interior
+        {
+            class MiClase { /* ... */ }
+        }
+    }
+
+}
+```
+
+Equivale a:
+
+```cs
+namespace Exterior.Medio.Interior
+{
+    class MiClase { /* ... */ }
+}
+```
+
+En este caso, el *fully qualified name* de ***MiClase*** es ***Exterior.Medio.Interior.MiClase***.
+
+Los tipos definidos fuera de un *namespace* pertenecen al *namespace* global. Los *namespaces* de más alto nivel (en el ejemplo, ***Exterior***) están dentro del *namespace* global.
+
+### using
+
+Mediante `using` podemos importar un *namespace*, de tal manera que evitamos tener que indicar los nombres *fully qualified*.
+
+```cs
+using Exterior.Medio.Interior;
+
+class Coche  // esta clase está en el namespace global
+{
+    static void Main()
+    {
+        MiClase o;  // no hace falta escribir Exterior.Medio.Interior.MiClase
+        // etc.
+    }
+}
+```
+
+Si la directiva `using` está dentro de un *namespace*, solo tendrá efecto en este.
+
+Es posible importar una clase (tipo) específica de un *namespace* sin importarlo todo, mediante `using static`. Esto importa todos los miembros (datos y métodos) **estáticos** de la clase.
+
+```cs
+namespace UnNamespace
+{
+    class UnaClase
+    {
+        public static int Dato = 55;
+        public static int Foo() { return 33; }
+    }
+}
+
+namespace OtroNamespace
+{
+    using static UnNamespace.UnaClase;
+    class MiClase
+    {
+        public void Main()
+        {
+            int x, y;
+
+            x = Foo();
+            y = Dato;
+            Console.WriteLine(x + y);  // 88
+        }
+    }
+}
+```
+
+Mientras en `using` solo se pueden indicar *namespaces*, en `using static` solo se pueden indicar tipos (si se aplica a una enumeración, se importarán sus elementos).
+
+Un nombre definido en un *namespace* es directamente accesible desde cualquier *namespace* anidado, sin necesidad de cualificarlo.
+
+### Resolución de nombres
+
+Para resolver un nombre se buscará primero en el *namespace* actual. Si no se encuentra, en un *enclosing namespace* (name *hiding*). Si tampoco se encuentra, se intentará usando las cláusulas `using` definidas en el *namespace* actual (o en uno *enclosing*).
+
+Supongamos que hacemos referencia a un nombre concreto. Supongamos también que utilizamos `using` para importar dos *namespaces* que definen ese mismo nombre, y que dicho nombre no está definido en el *namespace* actual (o uno *enclosing*). Entonces se producirá un error.
+
+Es posible importar solamente un tipo concreto de un *namespace*, si usamos un *alias* para ese tipo:
+
+```cs
+using NuevoNombre = NombreEspacio.MiClase;
+```
+
+### global
+
+Si nuestro *namespace* define un nombre que también existe en el *namespace* global, el nombre interior enmascara al del *namespace* global, para que no sea así, debemos usar el prefijo `global::` antes del nombre.

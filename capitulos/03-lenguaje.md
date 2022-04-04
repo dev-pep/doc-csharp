@@ -246,6 +246,7 @@ switch(expr)
         break;
     default:
         // Código
+        break;
 }
 ```
 
@@ -311,7 +312,7 @@ Cuando existen tipos derivados, el orden en el que aparecen las cláusulas `case
 
 ```
 while(expr)
-// sentencia o bloque
+    // sentencia o bloque
 ```
 
 #### do-while

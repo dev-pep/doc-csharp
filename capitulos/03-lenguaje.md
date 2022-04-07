@@ -200,6 +200,14 @@ a = objeto?.miembro;
 
 El operador retorna ***null*** si el objeto al que se aplica (operando izquierdo) es ***null***. De lo contrario retorna el valor del miembro especificado de tal objeto. En el ejemplo, ***a*** debe ser de un tipo *nullable* (que acepte el valor ***null***).
 
+De forma similar, se puede indexar sobre un objeto que puede ser ***null***:
+
+```cs
+string s;
+// Código
+char c = s?[0];
+```
+
 ## Sentencias
 
 Simples (terminadas en punto y coma) y bloques (entre llaves ***{}***).

@@ -323,15 +323,22 @@ Deriv deriv = b as Deriv;
 
 En este caso intentamos que ***deriv*** sea una referencia de tipo ***Deriv*** al objeto ***Base*** al que referencia ***b***. Esto no es legal, con lo que en este caso, ***deriv*** recibe el valor de ***null***.
 
-Por otro lado, el operador `is` comprueba si el objeto referenciado (no la referencia en sí) puede ser convertido al tipo especificado, es decir, si el objeto referenciado es del tipo especificado o de una clase derivada de este.
+Por otro lado, el operador `is` comprueba si el objeto referenciado (no la referencia en sí) puede ser convertido al tipo especificado, es decir, si el objeto referenciado es del tipo especificado o de una clase derivada de este. Siguiendo con el ejemplo anterior (***Base*** es clase base de ***Deriv***):
 
 ```cs
-resultado = b is Deriv;  // falso
+Deriv d = new Deriv();
+Base b = new Base();
+Base b2 = new Deriv();
+Base b3;
+bool resultado;
+
 resultado = d is Base;  // verdadero
-resultado = base2 is Deriv;  // verdadero
+resultado = b is Deriv;  // falso
+resultado = b2 is Deriv;  // verdadero
+resultado = b3 is Base;  // error: no existe objeto
 ```
 
-También se usa para comprobar si el objeto referenciado implementa la interfaz indicada.
+También se usa `is` para comprobar si el objeto referenciado implementa la interfaz indicada.
 
 ### Funciones virtuales y ocultación de métodos
 
@@ -340,6 +347,8 @@ Una clase derivada puede definir métodos que tengan el mismo nombre que un mét
 #### *Override*
 
 Para *override* (invalidar) un método de una clase base, debemos declarar el método como `override` antes del tipo de retorno. En la clase base, el método debe ser declarado como `virtual` u `override`. Si estamos definiendo un método que no existe en ninguna clase base (o no hay tal clase base) y queremos que una clase derivada lo *override*, se debe declarar como `virtual` (no `override`).
+
+Un método virtual no puede ser privado, lógicamente (ya que al no heredarse, no tendría sentido el *override*).
 
 ```cs
 class Base
@@ -455,6 +464,109 @@ o.Metodo(new Deriv());
 
 En este caso, aunque la llamada al método podría encajar con la versión que toma un argumento de tipo ***Base***, se ejecutará el otro, ya que es más específico.
 
-# Tipo object
+## Tipo object
 
-El tipo ***object*** pertenece al *namespace* ***System*** (***System.object***).
+El tipo ***object*** pertenece al *namespace* ***System*** (***System.object***). Si una clase no define una clase base explícitamente, su clase base es el tipo ***object***. Por lo tanto, **todos los tipos** derivan de este, y por ello pueden ser *upcasted* a ***object***.
+
+La expresión `a is object` siempre retorna verdadero, siempre que ***a*** tenga valor asignado.
+
+### *Boxing* y *unboxing*
+
+A la conversión de un tipo por valor en una referencia (de tipo ***object***) se le llama *boxing*:
+
+```cs
+int i = 33;
+object o = i;
+```
+
+Lo que hace esto es **crear un nuevo objeto** en memoria que es la **copia** del original (no se trata de una nueva referencia al entero).
+
+Convertir una referencia a un objeto por valor en un objeto por valor es *unboxing*. Es necesario un *cast* explícito:
+
+```cs
+int j = (int)o;
+```
+
+El tipo del objeto referenciado debe coincidir con el *cast*.
+
+Esto funcionaría:
+
+```cs
+object o = 3.5;  // referencia a un double
+int x = (int)(double)obj;  // 3
+```
+
+### Obtención del tipo
+
+El tipo de una variable puede obtenerse mediante el método `GetType()` (evaluado en tiempo de ejecución) de la instancia, dado que el tipo ***objeto*** proporciona ese método. El operador `typeof()` (evaluado en tiempo de compilación) sobre el nombre del tipo retorna ese tipo. En ambos casos, se retorna un objeto de tipo ***System.RuntimeType***.
+
+## Estructuras
+
+Las estructuras (`struct`) son igual que las clases (`class`), pero existen algunas diferencias.
+
+Una estructura es un tipo por valor, mientras que una clase es tipo por referencia. Por lo tanto, no es necesario instanciar (`new`).
+
+Una estructura no admite herencia (aunque sigue teniendo ***object*** como clase base).
+
+Una estructura no puede tener constructor sin parámetros, inicializadores de campos, finalizador ni miembros virtuales o protegidos (que tienen mucho que ver con el tema herencia).
+
+La estructura posee un constructor sin parámetros que no se puede invalidar, y simplemente coloca todos los campos a cero.
+
+## Modificadores de acceso
+
+Los tipos (clases, estructuras, etc.) y sus miembros pueden limitar su accesibilidad a través de los siguientes modificadores:
+
+- `public`: completamente accesible desde todos lados. Modificador por defecto para los **miembros** de **enumeraciones** e **interfaces**.
+- `internal`: completamente accesible, aunque solo desde el mismo *assembly*. Modificador por defecto de todos los **tipos** (excepto anidados).
+- `private`: accesible únicamente desde el tipo actual. Por defecto para **miembros** de clases y estructuras.
+- `protected`: accesible únicamente desde el tipo actual y sus subclases.
+- `protected internal`: combina (suma) la accesibilidad `protected` e `internal`. Un miembro declarado `protected internal` es accesible desde una subclase (en cualquier *assembly*) y también desde cualquier punto del mismo *assembly* (ya sea en una subclase o no).
+- `private protected`: el miembro será accesible desde una subclase definida en el mismo *assembly*, pero no lo será desde una subclase definida en otro *assembly*.
+
+Al hablar del mismo *assembly* se incluyen *assemblies* amigos, que deben configurarse a parte.
+
+Todos estos modificadores pueden usarse en miembros. Pero para tipos solo se usan `public` e `internal` (por defecto).
+
+Un miembro no puede tener una accesibilidad más alta que el tipo al que pertenece. Esto significa básicamente que si un tipo es `internal`, todos sus miembros declarados como `public` son en realidad tratados como `internal`.
+
+## Interfaces
+
+Una interfaz es como una clase, aunque no implementa sus miembros, solo los especifica. Por convenio, el nombre de una interfaz debe empezar por ***I***, seguido de un nombre en *PascalCase* (tipo ***INombreInterfaz***).
+
+Una interfaz no puede contener campos. Todos los miembros de una interfaz son implícitamente abstractos.
+
+Una clase o estructura puede implementar una o más interfaces. Ello les obliga a implementar todos los métodos de esta.
+
+Los miembros de una interfaz son implícitamente públicos y no pueden declarar modificador de acceso.
+
+Para definir qué interfaces implementa una clase, se indica igual que si fuere una herencia. Si existe una clase base de la que heredar, la clase base debe ir primera en la lista (separada por comas).
+
+```cs
+class Coche: Vehiculo, IInterfazUno, IInterfazDos { ... }
+class Bicicleta: IMiInterfaz { ... }
+```
+
+Una interfaz puede heredar de una o más interfaces.
+
+## Tipos anidados
+
+Se puede definir un tipo (clase, estructura, enumeración, etc.) dentro de otro.
+
+```cs
+class Contenedora
+{
+    class ClAnidada { ... }
+    enum EnAnidado { ... }
+    // etc.
+}
+```
+
+Los tipos anidados tienen acceso a todos los miembros privados de la clase contenedora y todo a lo que tenga acceso esta.
+
+Los tipos anidados pueden declararse con cualquiera de los modificadores de acceso (no se limita a `public` e `internal`). Su acceso por defecto es `private`.
+
+Desde dentro de la clase contenedora, para acceder al tipo anidado hay que usar el nombre cualificado:
+
+```cs
+Contenedora.ClAnidada o = new Contenedora.ClAnidada();
+```

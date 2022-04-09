@@ -283,3 +283,27 @@ char[,,][][] c = new char[2,5,3][][];
 ```
 
 En todo caso, a la hora de especificar el tamaño, siempre hay que especificarlo para el primer par de corchetes, ya sea una dimensión o un *array* cuadrado. El resto de pares de corchetes no puede especificar tamaño.
+
+## Enumeraciones
+
+Permite definir un conjunto de constantes.
+
+```cs
+enum DiasSemana { Lunes, Martes, Miercoles, Jueves, Viernes }
+```
+
+Uso:
+
+```cs
+DiasSemana d = DiasSemana.Martes;
+```
+
+Las constantes son de un tipo entero, por defecto ***int***. Se les puede asignar otro tipo:
+
+```cs
+enum DiasSemana: ushort { Lunes, Martes, Miercoles, Jueves, Viernes }
+```
+
+Por defecto se les asigna valor 0, 1, 2... Se puede especificar valor a una o varias constantes. Las que no reciban valor inicial tendrán en valor de la anterior más uno. Los valores pueden repetirse y pueden ser negativos.
+
+Los valores pueden ser convertidos (*casted*) a un tipo numérico o a otro tipo enumeración.

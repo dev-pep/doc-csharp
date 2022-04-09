@@ -8,6 +8,7 @@ Estos son mis apuntes de *C#* 7.
 1. [Tipos de datos](capitulos/02-tipos.md)
 1. [Elementos del lenguaje](capitulos/03-lenguaje.md)
 1. [Clases y objetos](capitulos/04-clases-objetos.md)
+1. [Más sobre objetos](capitulos/05-mas-objetos.md)
 
 ---
 

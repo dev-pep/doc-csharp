@@ -307,3 +307,9 @@ enum DiasSemana: ushort { Lunes, Martes, Miercoles, Jueves, Viernes }
 Por defecto se les asigna valor 0, 1, 2... Se puede especificar valor a una o varias constantes. Las que no reciban valor inicial tendrán en valor de la anterior más uno. Los valores pueden repetirse y pueden ser negativos.
 
 Los valores pueden ser convertidos (*casted*) a un tipo numérico o a otro tipo enumeración.
+
+## Tipos nullables
+
+Para que un tipo por valor pueda almacenar ***null***, debe ser un tipo *nullable*. Esto se consigue añadiendo un interrogante (***?***) al tipo original: ***int?***, ***float?***, etc.
+
+La conversión de un tipo a su correspondiente *nullable* es implícita. Al revés, debe ser explícita.

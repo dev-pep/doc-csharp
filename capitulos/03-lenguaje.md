@@ -463,3 +463,23 @@ using NuevoNombre = NombreEspacio.MiClase;
 ### global
 
 Si nuestro *namespace* define un nombre que también existe en el *namespace* global, el nombre interior enmascara al del *namespace* global, para que no sea así, debemos usar el prefijo `global::` antes del nombre.
+
+## Directivas del preprocesador
+
+Es posible incluir algunas directivas como `define`, `undef`, `if`/`else`/`elif`/`endif`, entre otras. También es posible generar *warnings* y errores de compilación mediante `warning` y `error`.
+
+```cs
+#define TEST
+#define DEBUG
+// ...
+#undef TEST
+// ...
+#if DEBUG && !TEST
+    #warning Modo depuración...
+    // ...
+#elif RELEASE
+    // ....
+#else
+    #error No debería llegar aquí...
+#endif
+```

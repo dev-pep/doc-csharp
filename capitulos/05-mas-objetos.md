@@ -200,5 +200,3 @@ Todas las excepciones derivan de ***System.Exception***. Esta clase proporciona,
 - ***StackTrace*** es un *string* con el *stack* de llamadas.
 - ***Message*** es una descripción del error (*string*).
 - ***InnerException*** es la excepción interior, si la hay, que causó la excepción actual. Esta excepción interior puede a su vez tener una ***InnerException***.
-
-## Enumeraciones e iteradores

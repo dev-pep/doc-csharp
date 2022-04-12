@@ -1,6 +1,6 @@
 # Apuntes de *C#*
 
-Estos son mis apuntes de *C#* 7.
+Estos son mis apuntes de *C#* 7. Se incluyen las funcionalidades básicas, suficientes para la mayoría de proyectos.
 
 ## Tabla de contenido
 

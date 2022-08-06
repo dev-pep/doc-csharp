@@ -1,4 +1,4 @@
-# Introducción a C#
+# Introducción a C\#
 
 El punto de entrada de un programa *C#* (*.exe*, no una biblioteca *.dll*) es la primera de las sentencias *top-level*. En su defecto, el método estático `Main()` de una de las clases definidas. Solo una de las clases puede definir tal método.
 

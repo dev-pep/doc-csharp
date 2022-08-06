@@ -1,4 +1,4 @@
-# Elementos de C#
+# Elementos de C\#
 
 *C#* dispone de *garbage collector*.
 
